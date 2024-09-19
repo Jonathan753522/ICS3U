@@ -1,0 +1,11 @@
+amount = 24
+amount1 = 7*4
+print(amount)
+print("Two dozen is: ", amount)
+print("forty-two is: ", amount1)
+amount2 = 8
+amount2 = amount2 + 1
+print("The amount is: ", amount2)
+amount3 = 8
+amount3 = amount3 * 2
+print(amount3)
