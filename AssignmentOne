@@ -1,0 +1,53 @@
+"""Author : Jonathan Lee
+   Revison date : 10 July 2023
+   Program : Bubble Sort Assignment
+   Description : a program to sort a list of 100 people
+     by their names and heights 
+   VARIABLE DICTIONARY :
+     Fullname (String) = person's name
+     height (double) = person's height
+     Lastname (String) = string object for entering the last-names
+     Firstname (String) = string object for entering the *first-names
+     B (String) = a variable for ignoring the first line in the file
+     sum (double) = variable for the total sum of the heights
+     avg (double) = variable for the average of all heights
+     count (int) = the number of people averaged
+     """
+  
+import math
+
+print("Question 1")
+Part1L = input("Please Input The Length:" )
+Part1L = int(Part1L)
+Part1W = input("Please Input The Width:")
+Part1W = int(Part1W)
+
+A1 = int(Part1L * Part1W)
+print("The Area Of The Rectangle Is",A1)
+print("")
+
+print("Question 2")
+Part2R = input("please Input Radius:")
+Part2R = int(Part2R)
+CA = math.pi*math.pow(Part2R, 2)
+print("The Area Of The Cylinder Is %.2f" % CA)
+print("")
+
+print("Question 3")
+Part3R = input("Please Input Radius:")
+Part3R = int(Part3R)
+Part3H = input("Please Input Height:")
+Part3H = int(Part3H)
+
+Volume = math.pi*math.pow(Part3R, 2)*Part3H
+SurfA = 2*math.pi*Part3R*Part3H + 2*math.pi*math.pow(Part3R, 2)
+
+print("The Volume is %.2f" % Volume, "And The Surface Area is %.2f" %SurfA )
+print("")
+
+print("Question 4")
+Part4L = input("Please Input The Length:")
+Part4L = int(Part4L)
+G = int(9.8)
+P = 2*math.pi*math.sqrt(Part4L/G)
+print("The Time It Takes For A Pendulum To Move Back And Forth Is %.2f" % P)
