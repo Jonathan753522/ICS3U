@@ -1,3 +1,0 @@
-# HIIII
-name = "Jonathan"
-print("Hello,", name)
