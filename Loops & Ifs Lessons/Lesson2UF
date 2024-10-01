@@ -11,5 +11,5 @@ if (y != 0):
   if rem == 0:
     print("Yes!", y, "is a factor of", x)
     #Modify Two
-elif (y==0):
+else: 
   print("Unfortunetly 0 is not a factor of the chosen number")
