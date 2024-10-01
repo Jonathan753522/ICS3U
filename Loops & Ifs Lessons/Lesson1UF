@@ -3,18 +3,28 @@ print("A: apples")
 print("B: bananas")
 print("C: cherries")
 ch = " "
-while (ch.lower()!="A" and ch.lower()!="B" and ch.lower()!="C" ):
+ch = input("Your choice: ")
 
-  ch = input("Your choice: ")
-
-  if (ch == "A"):
+if (ch == "A"):
     print("I prefer apples")
-  elif (ch == "B"):
+elif (ch == "B"):
     print("I prefer bananas")
-  elif (ch == "C"):
+elif (ch == "C"):
     print("I prefer cherries")
-  break
+else:
+  print("unexpected variable entered")
 
 #modify 2
 
-  
+number = int(input("Input A Value:"))
+
+if (number >= 100) and (number <= 80):
+  print("You Got An A")
+elif (number >= 79) and (number <= 70):
+  print("You Got An B")
+elif (number >= 69) and (number <= 60):
+  print("You Got An C")
+elif (number >= 59) and (number <= 50):
+  print("You Got An D")
+elif (number >= 49) and (number <= 0):
+  print("Dude...")
