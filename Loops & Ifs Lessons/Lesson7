@@ -1,0 +1,9 @@
+import math
+
+print("%3s|%5s|%7s|%7s|" % ("N", "Sqr", "Cubes", "Roots"))
+for N in range(10, 200, 15):
+  sqr = N**2
+  cubes = N**3
+  Roots = round(math.sqrt(N), 2)
+  
+  print("%3d|%5d|%7d|%7.2f|" % (N, sqr, cubes, Roots))
