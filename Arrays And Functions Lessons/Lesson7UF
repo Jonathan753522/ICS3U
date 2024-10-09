@@ -1,0 +1,11 @@
+S = input("please input the DNA")
+S = [S]
+
+
+
+
+def Comp(S):
+  return 
+
+print(S)
+
