@@ -9,9 +9,9 @@ def sqrt(num):
 N = (sqrt(num))
 def factorize(num):
   for J in range(N): 
-    NA.append(J)
+    if (N % J == 0):  
+      NA.append(J)
   return
 
-print(N)
+
 print(factorize(num))
-print(NA)
