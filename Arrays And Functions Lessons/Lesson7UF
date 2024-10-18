@@ -1,11 +1,14 @@
-S = input("please input the DNA")
-S = [S]
-
-
-
-
 def Comp(S):
-  return 
+  DNAStrand = ""
+  for DNA in S:
+    if DNA == 'G':
+      DNAStrand += 'C'
+    elif DNA == 'C':
+      DNAStrand += 'G'
+    elif DNA == 'A':
+      DNAStrand += 'T'
+    elif DNA == 'T':
+      DNAStrand += 'A'
+  return DNAStrand
 
-print(S)
-
+print(Comp("ATCAAGGCCTATTCCGGGAAAGG"))
