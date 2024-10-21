@@ -22,21 +22,31 @@ def wc(TdegC, windKPH):
 
    return Tw
 
-def WWaring(WindC):
+def WWarning(WindC):
   WindC = round(WindC)
-  if WindC =< 0 and >= -9:
+  if (WindC >= 0) and (WindC <= -9):
     print("LowRisk")
-    elif WindC =< -10 and => -28:
-      print("Moderate Risk Of Hypothermia")
-      elif WindC =< -29 and => -40:
-        print("Moderate Risk Of Hypothermia")
-        elif WindC =< -10 and => -28:
-          print("Moderate Risk Of Hypothermia")
-    
+  elif (WindC >= -10) and (WindC <= -28):
+    print("Moderate Risk Of Hypothermia")
+  elif (WindC >= -29) and (WindC <= -40):
+    print("High Risk Of Frostbite")
+  elif (WindC >= -41) and (WindC <= -48):
+    print("Severe Risk Of Frostbite: Exposed Skin Freezes In 5-10 Mins")
+  elif (WindC >= -49) and (WindC <= -55):
+    print("Severe Risk Of Frostbite: Exposed Skin Freezes In 2-5 Mins")
+  elif (WindC >= -55):
+    print("Extreme risk: exposed skin freezes in under 2 minutes")
+  
+  return
 
+
+  
 T = -5.0
 W = 10.0
-print("WC=%8.3f T=%8.3f W=%6.3f km/h" % (wc(T, W), T, W))
+WCF = round(wc(T, W))
+
+print("WC=%8.3f T=%8.3f W=%6.3f km/h Waring: %s" % (wc(T, W), T, W, WWarning(WCF)))
+
 T = -20.0
 W = 20.0
 print("WC=%8.3f T=%8.3f W=%6.3f km/h" % (wc(T, W), T, W))
