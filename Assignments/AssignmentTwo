@@ -1,0 +1,26 @@
+import math
+print("Welcome to the school yearbook program!")
+Pinp = int(input("Please Input A Number Of Photographs: "))
+
+num = math.floor(math.sqrt(Pinp))
+
+def PhotoFactor(num):
+  Photonum = []
+  for J in range(1,num + 1): 
+    if (num % J == 0):  
+      Photonum.append(J)
+  
+  return Photonum
+
+def perim(num):
+    Xaxis = 1
+    Photonum = Photonum(num)
+    if (Xaxis < Photonum):
+        valid = True
+        print("max")
+    elif (Xaxis > Photonum):
+        valid = False
+        print("min")
+        
+Test = PhotoFactor(Pinp)
+Test = perim(Test)
