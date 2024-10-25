@@ -22,11 +22,17 @@ def perim(N):
 
 #Printing Statments
 print("Welcome to the school yearbook program!")
-userinp = int(input("Please Input A Number Of Photographs: "))
+userinp = (input("Please Input A Number Of Photographs: "))
 photooutput = userinp
 
-if photooutput <= 0:
-    print("Please input a positive number")
+valid == False
 
-elif photooutput > 0:
-    perim(photooutput)
+if (photooutput.lower() == "done"):
+    valid = True
+
+while (valid == False):
+    photooputput = int(photooputput)
+    if photooutput <= 0:
+        print("Please input a positive number")
+    elif photooutput > 0:
+        perim(photooutput)
