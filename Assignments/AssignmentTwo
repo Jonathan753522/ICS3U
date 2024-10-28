@@ -23,17 +23,21 @@ def perim(N):
 #Printing Statments/Loop
 test = 0
 print("Welcome to the school yearbook program!")
-while(test == 0):
+
+done = False
+
+while (done != True):
     userinp = (input("Please Input A Number Of Photographs: "))
-    if (userinp.lower() == "done"):
-        test == 1
-    photooutput = int(userinp)
+    if isinstance(userinp, int):
+        photooutput = int(userinp)
+    if not isinstance(userinp, int):
+        photooutput = int(userinp)
+        done == True
     if photooutput <= 0:
         print("Please input a positive number")
     elif photooutput > 0:
         perim(photooutput)
 
-    
 
 
 
