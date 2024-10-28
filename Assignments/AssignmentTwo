@@ -20,19 +20,20 @@ def perim(N):
     perimeter = 2 * (Xaxis + Yaxis)
     print("Minimum perimeter is %d with dimensions: %d x %d" % (perimeter, Xaxis, Yaxis))
 
-#Printing Statments
+#Printing Statments/Loop
+test = 0
 print("Welcome to the school yearbook program!")
-userinp = (input("Please Input A Number Of Photographs: "))
-photooutput = userinp
-
-valid == False
-
-if (photooutput.lower() == "done"):
-    valid = True
-
-while (valid == False):
-    photooputput = int(photooputput)
+while(test == 0):
+    userinp = (input("Please Input A Number Of Photographs: "))
+    if (userinp.lower() == "done"):
+        test == 1
+    photooutput = int(userinp)
     if photooutput <= 0:
         print("Please input a positive number")
     elif photooutput > 0:
         perim(photooutput)
+
+    
+
+
+
