@@ -37,6 +37,13 @@ def perim(N):
     Yaxis = N / Xaxis
     perimeter = 2 * (Xaxis + Yaxis)
     print("Minimum perimeter is %d with dimensions: %d x %d" % (perimeter, Xaxis, Yaxis))
+    
+def CheckNeg(N):
+    if (photooutput < 0):
+        print("%d is not a valid number of photos" % (N))
+        print("Please input a positive number")
+    elif N > 0:
+        perim(N)
 
 #Printing Statments/Loop
 print("Welcome to the school yearbook program!")
@@ -54,10 +61,7 @@ while (done != True):
             break
         if not isinstance(userinp, int):
             photooutput = int(userinp)
-        if (photooutput < 0):
-            print("%d is not a valid number of photos" % (photooutput))
-            print("Please input a positive number")
-        elif photooutput > 0:
-            erim(photooutput)
+        CheckNeg(photooutput)
     except:
         print("%s is not a valid number of photos" % (userinp))
+
