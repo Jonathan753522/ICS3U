@@ -1,17 +1,17 @@
 """
    Author : Jonathan Lee
    Revison date : 29 October 2024
-   Program : Yearbook Photo Optimzier
+   Program : Yearbook Photo Assignment
    Description : What ever number you input it finds the optimal perimeter
    VARIABLE DICTIONARY :
-     Fullname (String) = person's name
-     height (double) = person's height
-     Lastname (String) = string object for entering the last-names
-     Firstname (String) = string object for entering the *first-names
-     B (String) = a variable for ignoring the first line in the file
-     sum (double) = variable for the total sum of the heights
-     avg (double) = variable for the average of all heights
-     count (int) = the number of people averaged
+     userinp (String) = Users input
+     Photo_output (Int) = Userinp converted to an integer
+     Xaxis (int) = X axis used to find the perimeter
+     Yaxis (int) = Y axis used to find the perimeter
+     done (bool) = Boolean that stops the loop when entered
+     perimeter (int) = Total Perimeter of all photos
+     Photonum (list) = list of photo factors
+     mnum (int) = Minimun Number Of Photos
 """
 
 import math
@@ -38,10 +38,13 @@ def perim(N):
     perimeter = 2 * (Xaxis + Yaxis)
     print("Minimum perimeter is %d with dimensions: %d x %d" % (perimeter, Xaxis, Yaxis))
     
+#Checks To See If Input Is Negative
 def CheckNeg(N):
-    if (photooutput < 0):
+    if (N < 0):
         print("%d is not a valid number of photos" % (N))
         print("Please input a positive number")
+    elif (N == 0):
+        print("%d is not a valid number of photos" % (N))
     elif N > 0:
         perim(N)
 
@@ -51,17 +54,15 @@ print("Welcome to the school yearbook program!")
 done = False
 
 #While Loop
-
 while (done != True):
     try:
         userinp = (input("Please Input A Number Of Photographs: "))
-        if (userinp.lower() == "done") or (userinp == "0"):
+        if (userinp.lower() == "done"):
             print("Goodbye!")
             done = True
             break
         if not isinstance(userinp, int):
-            photooutput = int(userinp)
-        CheckNeg(photooutput)
+            photo_output = int(userinp)
+        CheckNeg(photo_output)
     except:
         print("%s is not a valid number of photos" % (userinp))
-
