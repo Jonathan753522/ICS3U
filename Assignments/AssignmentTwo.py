@@ -56,6 +56,7 @@ done = False
 #While Loop
 while (done != True):
     try:
+       #User input 
         userinp = (input("Please Input A Number Of Photographs: "))
         if (userinp.lower() == "done"):
             print("Goodbye!")
