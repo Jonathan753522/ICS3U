@@ -21,8 +21,8 @@ import math
 def PhotoFactors(N):
     Photonum = []
     mnum = math.floor(math.sqrt(N))
-    for x in range(1,mnum + 1): 
-        if N % x == 0:  
+    for Xaxis in range(1,mnum + 1): 
+        if N % Xaxis == 0:  
             Photonum.append(Xaxis)
   
     return Photonum
