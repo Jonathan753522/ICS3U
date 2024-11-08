@@ -62,7 +62,7 @@ while (done != True):
             print("Goodbye!")
             done = True
             break
-        if not isinstance(userinp, int):
+        if done == False:
             photo_output = int(userinp)
         CheckNeg(photo_output)
     except:
