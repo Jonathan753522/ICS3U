@@ -1,69 +1,125 @@
-"""
-   Author : Jonathan Lee
-   Revison date : 29 October 2024
-   Program : Yearbook Photo Assignment
-   Description : What ever number you input it finds the optimal perimeter
-   VARIABLE DICTIONARY :
-     userinp (String) = Users input
-     Photo_output (Int) = Userinp converted to an integer
-     Xaxis (int) = X axis used to find the perimeter
-     Yaxis (int) = Y axis used to find the perimeter
-     done (bool) = Boolean that stops the loop when entered
-     perimeter (int) = Total Perimeter of all photos
-     Photonum (list) = list of photo factors
-     mnum (int) = Minimun Number Of Photos
-"""
+import turtle  # should be at the top of your code
 
-import math
+# Constants and Initialization
+turtle.bgcolor("gray40")  # dark gray
+turtle.tracer(0, 0)  # turns off updates to speed up plotting
+t = turtle.Turtle()  # makes it easier to call the plotting functions
+t.hideturtle()  # prevents the plotter sprite from appearing in your image
 
-#Functions
 
-def PhotoFactors(N):
-    Photonum = []
-    mnum = math.floor(math.sqrt(N))
-    for Xaxis in range(1,mnum + 1): 
-        if N % Xaxis == 0:  
-            Photonum.append(Xaxis)
-  
-    return Photonum
+def Modify(ln):
+    # Remove unwanted characters (e.g., quotation marks and commas) from a string.
+    return ''.join([c for c in ln.strip() if c not in ['"', ',']])
 
-#Calculates Perimeter
-def perim(N):
-    Factor = PhotoFactors(N)
-    Xaxis = 1
-    for num in Factor:
-        if num > Xaxis:
-            Xaxis = num 
-    Yaxis = N / Xaxis
-    perimeter = 2 * (Xaxis + Yaxis)
-    print("Minimum perimeter is %d with dimensions: %d x %d" % (perimeter, Xaxis, Yaxis))
-    
-#Checks To See If Input Is Negative
-def CheckNeg(N):
-    if (N < 0):
-        print("%d is not a valid number of photos" % (N))
-        print("Please input a positive number")
-    elif (N == 0):
-        print("%d is not a valid number of photos" % (N))
-    elif N > 0:
-        perim(N)
 
-#Printing Statments/Loop
-print("Welcome to the school yearbook program!")
+def plotIt(T, x, y, size, color):
+    # Plot a single pixel at position (x, y) with a given size and color.
+    T.penup()
+    T.goto(x, y)
+    T.pendown()
+    T.dot(size, color)
+    T.penup()
 
-done = False
 
-#While Loop
-while (done != True):
+def LoadandDrawimage(filename, rotate=False):
+    # Load image data from a file and draw it on the screen with optional rotation.
+    file_handler = open(filename, "r")
     try:
-       #User input 
-        userinp = (input("Please Input A Number Of Photographs: "))
-        if (userinp.lower() == "done"):
-            print("Goodbye!")
-            done = True
+        # Read the first line with the dimensions and number of colors
+        color_data = Modify(file_handler.readline())
+        
+        # Split the color data line, handle possible extra values
+        color_data_parts = color_data.split()
+        if len(color_data_parts) < 3:
+            ValueError("Invalid color data format: {}".format(color_data))
+        
+        rows, cols, numColors = map(int, color_data_parts[:3])  # Use only the first three values
+
+        # Read color definitions
+        colorDefs = []
+        for _ in range(numColors):
+            line = Modify(file_handler.readline())
+            sym, c, color = line.split()
+            colorDefs.append([sym if sym != '~' else ' ', color])
+
+        # Read image data and map color symbols to actual colors
+        image_data = []
+        for _ in range(rows):
+            row = Modify(file_handler.readline())
+            row_data = []
+            for color in row:
+                # Check if color exists in colorDefs, otherwise use a default color
+                matched_color = None
+                for color_def in colorDefs:
+                    if color_def[0] == color:
+                        matched_color = color_def[1]
+                        break
+                if matched_color:
+                    row_data.append(matched_color)
+                else:
+                    row_data.append("black")  # Default color for unmatched symbols
+            image_data.append(row_data)
+        file_handler.close()
+
+    print("\nDimensions: %d x %d" % (rows, cols))
+    print("Number of colors:", numColors)
+    print("Colors:", colorDefs)
+
+    # Draw the image with or without rotation
+    x_offset = -cols // 2
+    y_offset = -rows // 2
+    x_rot = -1 if rotate else 1
+    y_rot = -1 if rotate else 1
+
+    for x in range(len(image_data)):
+        y_offset += 1
+        for y in range(len(image_data[x])):
+            plotIt(t, x_offset * 3.5 * x_rot, -y_offset * 3.5 * y_rot, 3.5, image_data[x][y])
+            x_offset += 1
+        x_offset = -cols // 2
+
+
+def getuserinput():
+    """Get user input for the file and rotation choice."""
+    filename = ""
+    rotate = False
+    Userinp = True
+    # Get file choice
+    while Userinp == True:
+        user_input = input("Choose an option:\n A: rocky_bullwinkle_mod.xpm \n B: smiley_emoji_mod.xpm \n C: Enter a file name\n")
+        if user_input.lower() == 'a':
+            filename = "rocky_bullwinkle_mod.xpm"
+            Userinp = False
             break
-        if done == False:
-            photo_output = int(userinp)
-        CheckNeg(photo_output)
-    except:
-        print("%s is not a valid number of photos" % (userinp))
+        elif user_input.lower() == 'b':
+            filename = "smiley_emoji_mod.xpm"
+            Userinp = False
+            break
+        elif user_input.lower() == 'c':
+            filename = input("Enter the file name: ")
+            Userinp = False
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+    # Get rotation choice
+    while Userinp == False:
+        user_input = input("Would you like to rotate the image (Y/N): ")
+        if user_input.lower() == 'y':
+            rotate = True
+            Userinp = True
+            break
+        elif user_input.lower() == 'n':
+            rotate = False
+            Userinp = True
+            break
+        else:
+            print("Invalid input. Please enter 'Y' or 'N'.")
+
+    return filename, rotate
+
+
+# Main Program Execution
+filename, rotate = getuserinput()
+LoadandDrawimage(filename, rotate)
+
