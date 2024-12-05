@@ -30,8 +30,20 @@ def drawImage(img, pixel_size, rows, cols, x_rot, y_rot):
             x_half += 1
         x_half = int(cols / 2) * -1
 
-def getImageData(fh, rows, cols, colorDefs):
+def getImageAndColorData(fh, rows, cols):
     imageData = []
+    colorDefs = []
+    
+    # Process the color definitions first
+    for i in range(numColors):
+        colorLine = fh.readline() 
+        colorLine = modify(colorLine)
+        sym, c, color = colorLine.split()
+        if sym == '~':
+            sym = ' '
+        colorDefs.append([sym, color])
+
+    # Process the image data
     for i in range(rows):
         row = fh.readline()
         row = modify(row)
@@ -43,44 +55,35 @@ def getImageData(fh, rows, cols, colorDefs):
                     color = colorDefs[k][1]
             rowArr.append(color)
         imageData.append(rowArr)
-    return imageData
+    
+    return imageData, colorDefs
 
-def getColorData(fh, rows, cols):
-    colorDefs = []
-    for i in range(numColors):
-        colorLine = fh.readline() 
-        colorLine = modify(colorLine)
-        sym, c, color = colorLine.split()
-        if sym == '~':
-            sym = ' '
-        colorDefs.append([sym, color])
-    return colorDefs
 
 filename = ""
 rotate = False
 
-valid = False
-while not valid:
+Userinp = False
+while Userinp == False:
     user_input = input("Choose an option: \n A: rocky_bullwinkle_mod.xpm \n B: smiley_emoji_mod.xpm \n C: Enter a file name \n")
     if user_input.lower() == 'a':
         filename = "rocky_bullwinkle_mod.xpm"
-        valid = True
+        Userinp = True
     elif user_input.lower() == 'b':
         filename = "smiley_emoji_mod.xpm"
-        valid = True
+        Userinp = True
     elif user_input.lower() == 'c':
         filename = input("Enter the file name: ")
-        valid = True
+        Userinp = True
 
-valid = False
-while not valid:
+Userinp = False
+while Userinp == False:
     user_input = input("Would you like to rotate the image (Y/N): ")
     if user_input.lower() == 'y':
         rotate = True
-        valid = True
+        Userinp = True
     elif user_input.lower() == 'n':
-        valid = True
-    
+        Userinp = True
+
 fh = open(filename, "r")
 
 colorData = fh.readline()
@@ -95,14 +98,18 @@ rows = int(rows)
 cols = int(cols)
 numColors = int(numColors)
 
-colorDefs = getColorData(fh, rows, cols)
-imageData = getImageData(fh, rows, cols, colorDefs)
+# Using the merged function to get both image data and color definitions
+imageData, colorDefs = getImageAndColorData(fh, rows, cols)
+
 fh.close()
 
 print("\nDimensions: %d x %d" % (rows, cols))
 print("Number of colors:", numColors)
 print("Colors:", colorDefs)
+
+# Main logic moved here for execution after processing input
 if rotate:
     drawImage(imageData, 3.5, rows, cols, -1, -1)
 else:
     drawImage(imageData, 3.5, rows, cols, 1, 1)
+
