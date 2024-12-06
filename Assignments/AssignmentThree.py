@@ -6,13 +6,13 @@ t.hideturtle()           # prevents the plotter sprite from appearing in your im
 
 #Functions
 def modify(ln):
-    mod_string = ""
+    modifyStr = ""
     badChars = ['"', ',']
     ln = ln.strip()
     for c in ln:
         if c not in badChars:
-            mod_string = mod_string + c
-    return mod_string
+            modifyStr = modifyStr + c
+    return modifyStr
 
 def plotIt(T, x, y, d, color):
     T.penup()
