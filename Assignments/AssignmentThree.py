@@ -101,8 +101,14 @@ while Userinp == False:
         Userinp = True
     elif User_input.lower() == 'n':
         Userinp = True
-
-fh = open(filename, "r")
+fh = None
+try:
+    # Open the chosen file for reading
+    fh = open(filename, "r")
+except:
+    # File is not found and exit the program
+    print("File not found.")
+    exit()
 
 colorData = fh.readline()
 colorData = modify(colorData)
@@ -128,3 +134,4 @@ if rotate:
     drawImage(imageData, 3, rows, cols, -1, -1)
 else:
     drawImage(imageData, 3, rows, cols, 1, 1)
+turtle.update()
