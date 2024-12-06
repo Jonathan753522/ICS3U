@@ -1,3 +1,20 @@
+"""
+   Author : Jonathan Lee
+   Revison date : 6 December 2024
+   Program : Making A Graphics Plotter using Turtle
+   Description : choose an image to draw using the code
+   VARIABLE DICTIONARY :
+    filename (str) = The file name/path for the xpm file
+    rotate (bool) = Boolean value of if the image will be rotated
+    rows (int) = Number of rows
+    cols (int) = Number of cols
+    ColorAmount (int) = Number of colors
+    User_input (str) = User input in type string
+    Userinp (bool) = Boolean value of if the userinp has entered valid input
+    colorDefs (list) = Array of the colors and symbols
+    imageData (list) = Array of each line in the image with colors
+"""
+
 import turtle            # should be at the top of your code
 turtle.bgcolor("gray40") # dark gray - try gray40 for a lighter gray
 turtle.tracer(0,0)       # turns off updates to speed up plotting
@@ -65,24 +82,24 @@ rotate = False
 
 Userinp = False
 while Userinp == False:
-    user_input = input("Choose an option: A: rocky_bullwinkle_mod.xpm B: smiley_emoji_mod.xpm C: Enter a file name \n")
-    if user_input.lower() == 'a':
+    User_input = input("Choose an option: A: rocky_bullwinkle_mod.xpm B: smiley_emoji_mod.xpm C: Enter a file name \n")
+    if User_input.lower() == 'a':
         filename = "rocky_bullwinkle_mod.xpm"
         Userinp = True
-    elif user_input.lower() == 'b':
+    elif User_input.lower() == 'b':
         filename = "smiley_emoji_mod.xpm"
         Userinp = True
-    elif user_input.lower() == 'c':
+    elif User_input.lower() == 'c':
         filename = input("Enter the file name: ")
         Userinp = True
 
 Userinp = False
 while Userinp == False:
-    user_input = input("Would You Like The Image Rotated (Y/N): ")
-    if user_input.lower() == 'y':
+    User_input = input("Would You Like The Image Rotated (Y/N): ")
+    if User_input.lower() == 'y':
         rotate = True
         Userinp = True
-    elif user_input.lower() == 'n':
+    elif User_input.lower() == 'n':
         Userinp = True
 
 fh = open(filename, "r")
