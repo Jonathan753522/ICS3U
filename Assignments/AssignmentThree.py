@@ -16,7 +16,7 @@
 """
 
 import turtle            # should be at the top of your code
-turtle.bgcolor("gray40") # dark gray - try gray40 for a lighter gray
+turtle.bgcolor("gray20") # dark gray - try gray40 for a lighter gray
 turtle.tracer(0,0)       # turns off updates to speed up plotting
 t = turtle.Turtle()      # makes it easier to call the plotting functions
 t.hideturtle()           # prevents the plotter sprite from appearing in your image
@@ -135,3 +135,4 @@ if rotate:
 else:
     drawImage(imageData, 3, rows, cols, 1, 1)
 turtle.update()
+
