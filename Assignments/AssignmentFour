@@ -1,0 +1,24 @@
+
+filename = "wordle.dat"
+
+fh = None
+try:
+    fh = open(filename, "r")
+except:
+    print("File not found.")
+    exit()
+
+Dates = []
+Words = []
+
+for L in range(Dates):
+    goodchars = []
+    date = fh.readline()
+    Dates.append(date)
+    p, q, r = Dates.split()
+
+def merge(p, q, r):
+    
+    
+    
+    return
