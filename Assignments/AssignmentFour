@@ -1,24 +1,106 @@
-
+# Constants
 filename = "wordle.dat"
 
-fh = None
+# Month-to-number mapping
+month_to_number = {
+    "Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6,
+    "Jul": 7, "Aug": 8, "Sep": 9, "Oct": 10, "Nov": 11, "Dec": 12
+}
+
+# Function to merge date components into a single integer
+def merge(p, q, r):
+    month = month_to_number[q.title()]  # Convert month to title case for consistency
+    day = int(p)
+    year = int(r)
+    return year * 10000 + month * 100 + day
+
+# Open the file
 try:
     fh = open(filename, "r")
 except:
     print("File not found.")
     exit()
 
+# Arrays to store dates and words
 Dates = []
 Words = []
 
-for L in range(Dates):
-    goodchars = []
-    date = fh.readline()
-    Dates.append(date)
-    p, q, r = Dates.split()
+# Read data from file
+for line in fh:
+    parts = line.split()
+    if len(parts) == 4:
+        mon, day, year, word = parts
+        date = merge(day, mon, year)
+        Dates.append(date)
+        Words.append(word)
 
-def merge(p, q, r):
+# Function to sort the words and dates (synchronized)
+def sort(words, dates):
+    for i in range(len(words)):
+        for j in range(i + 1, len(words)):
+            if words[i].upper() > words[j].upper():
+                # Swap words
+                words[i], words[j] = words[j], words[i]
+                # Swap corresponding dates
+                dates[i], dates[j] = dates[j], dates[i]
+
+# Sort the words and dates alphabetically
+sort(Words, Dates)
+
+# Function to perform binary search by word
+def isMatch(word, words, dates):
+    low = 0
+    high = len(words) - 1
+    word = word.upper()
+
+    while low <= high:
+        mid = (low + high) // 2
+        if words[mid].upper() == word:
+            return dates[mid]
+        elif words[mid].upper() < word:
+            low = mid + 1
+        else:
+            high = mid - 1
     
+    return 0
+
+# Function to search by date
+def search_by_date(year, month, day, dates, words):
+    search_date = merge(str(day).zfill(2), month, str(year))
+    # Check if date is too early or too late before continuing
+    if search_date < 20210619:
+        return f"{search_date} is too early. No wordles occurred before 20210619. Enter a later date."
+    elif search_date > 20240421:
+        return f"{search_date} is too recent. Our records only go as late as 20240421. Please enter an earlier date."
     
-    
-    return
+    # If valid date range, find the word
+    if search_date in dates:
+        index = dates.index(search_date)
+        return words[index]
+    else:
+        return f"Date {search_date} not found in records."
+
+# Main program loop
+print("Welcome to the Wordle Database!")
+while True:
+    action = input("Enter w if you are looking for a word, or d for a word on a certain date: ").strip().lower()
+
+    if action == 'w':
+        word = input("What word are you looking for? ").strip()
+        date = isMatch(word, Words, Dates)
+        if date != 0:
+            print(f"The word {word.upper()} was the solution to the puzzle on {date}")
+        else:
+            print(f"{word.upper()} was not found in the database.")
+
+    elif action == 'd':
+        year = int(input("Enter the year: "))
+        month = input("Enter the month (3-letter abbreviation, as in 'Jan' for 'January'): ").strip()
+        day = int(input("Enter the day: "))
+
+        result = search_by_date(year, month, day, Dates, Words)
+        print(result)
+
+    else:
+        print("Invalid option. Please enter 'w' or 'd'.")
+
