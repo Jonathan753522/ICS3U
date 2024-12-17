@@ -69,9 +69,9 @@ def search_by_date(year, month, day, dates, words):
     search_date = merge(str(day).zfill(2), month, str(year))
     # Check if date is too early or too late before continuing
     if search_date < 20210619:
-        return f"{search_date} is too early. No wordles occurred before 20210619. Enter a later date."
+        return ("%s is too recent. Our records only go as late as 20240421. Please enter an earlier date.", search_date)
     elif search_date > 20240421:
-        return f"{search_date} is too recent. Our records only go as late as 20240421. Please enter an earlier date."
+        return ("%s is too recent. Our records only go as late as 20240421. Please enter an earlier date.", search_date)
     
     # If valid date range, find the word
     if search_date in dates:
@@ -82,7 +82,8 @@ def search_by_date(year, month, day, dates, words):
 
 # Main program loop
 print("Welcome to the Wordle Database!")
-while True:
+valid = True
+while (valid == True):
     action = input("Enter w if you are looking for a word, or d for a word on a certain date: ").strip().lower()
 
     if action == 'w':
@@ -90,6 +91,7 @@ while True:
         date = isMatch(word, Words, Dates)
         if date != 0:
             print(f"The word {word.upper()} was the solution to the puzzle on {date}")
+            break
         else:
             print(f"{word.upper()} was not found in the database.")
 
@@ -100,7 +102,6 @@ while True:
 
         result = search_by_date(year, month, day, Dates, Words)
         print(result)
-
+        break
     else:
         print("Invalid option. Please enter 'w' or 'd'.")
-
