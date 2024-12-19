@@ -1,3 +1,19 @@
+"""
+   Author : Jonathan Lee
+   Revision date : 20 December 2024
+   Program : Making A Word Finder
+   Description : Finding words and dates using the date and word
+   VARIABLE DICTIONARY :
+    filename (str) = The file name/path for the xpm file
+    month_to_number (List) list containing dates
+    Dates (list) = Number of rows in the image
+    Words (list) = Number of columns in the image
+    ColorAmount (int) = Number of unique colors used in the image
+    User_input (str) = User input in type string
+    Userinp (bool) = Boolean value of if the userinp has entered valid input
+    colorDefs (list) = List of colors and symbols used in the image
+    imageData (list) = List of each line in the image with color information
+"""
 # Constants
 filename = "wordle.dat"
 
