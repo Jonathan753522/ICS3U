@@ -1,0 +1,20 @@
+filename = "data.dat"
+
+GivenName = []
+Suranme = []
+
+def merge_sort(list1, list2, list3, list4, left, right):
+    if left < right:
+        mid = left + (right - left) // 2
+        merge_sort(list1, list2, left, mid)
+        merge_sort(list1, list2, mid + 1, right)
+        merge(list1, list2, left, mid, right)
+
+
+
+file_name = filename
+file_handle = open(file_name, "r")
+
+file_lines = file_handle.readlines()
+
+
