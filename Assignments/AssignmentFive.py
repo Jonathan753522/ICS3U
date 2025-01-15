@@ -1,7 +1,5 @@
 filename = "data.dat"
 
-GivenName = []
-Suranme = []
 
 def merge_sort(list1, list2, list3, list4, left, right):
     if left < right:
