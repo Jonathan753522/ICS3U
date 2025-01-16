@@ -1,3 +1,12 @@
+"""
+   Author : Jonathan Lee
+   Revision date : 20 December 2024
+   Program : Credit Card Revisor
+   Description : Checks to see if you need to renew your card or if its expired
+   VARIABLE DICTIONARY :
+    
+"""
+
 filename = "data.dat"
 
 
@@ -20,18 +29,20 @@ def merge(list1, list2, list3, list4, left, mid, right):
     R2 = [0] * n2
     R3 = [0] * n2
     R4 = [0] * n2
-    for i in range(n1):
+    for i in range(0, n1):
         L1[i] = list1[left + i]
         L2[i] = list2[left + i]
         L3[i] = list3[left + i]
         L4 [i] = list4[left + i]
-    for j in range(n2):
+    for j in range(0, n2):
         R1[j] = list1[mid + 1 + j]
         R2[j] = list2[mid + 1 + j]
         R3[j] = list3[mid + 1 + j]
         R4[j] = list4[mid + 1 + j]
         
-    i, j, k = 0, 0, left
+    i = 0  
+    j = 0  
+    k = left  
     while i < n1 and j < n2:
         if L1[i] <= R1[j]:
             list1[k] = L1[i]
@@ -62,7 +73,7 @@ def merge(list1, list2, list3, list4, left, mid, right):
         k += 1
 
 
-filename = "data.dat"
+
 fh = open(filename, 'r')
 
 names = []
@@ -96,3 +107,4 @@ for i in range(len(expiry_dates)):
     print("%-35s %-15s %-20s %-8s %-15s" % (names[i], cc_types[i], cc_nums[i], expiry_dates[i], expired_text))
     output_file.write("%-35s %-15s %-20s %-8s %-15s\n" % (names[i], cc_types[i], cc_nums[i], expiry_dates[i], expired_text))
 output_file.close()
+
