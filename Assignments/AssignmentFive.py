@@ -77,9 +77,9 @@ def merge(list1, list2, list3, list4, left, mid, right):
 fh = open(filename, 'r')
 
 names = []
-cc_nums = []
-cc_types = []
-expiry_dates = []
+CCnums = []
+CCtypes = []
+ExpiryDates = []
 
 lines = fh.readlines()
 first_line = lines.pop(0)
@@ -87,24 +87,24 @@ for line in lines:
     given_name, surname, cc_type, cc_number, exp_mo, exp_yr = line.strip().split(',')
     name = given_name + ' ' + surname
     names.append(name)
-    cc_types.append(cc_type)
-    cc_nums.append(cc_number)
+    CCtypes.append(cc_type)
+    CCnums.append(cc_number)
     if len(exp_mo) == 1:
         exp_mo = '0' + exp_mo
     expiry_date = exp_yr + exp_mo
-    expiry_dates.append(int(expiry_date))
+    ExpiryDates.append(int(expiry_date))
 
 fh.close()
 
-merge_sort(expiry_dates, names, cc_nums, cc_types, 0, len(expiry_dates) - 1)
+merge_sort(ExpiryDates, names, CCnums, CCtypes, 0, len(ExpiryDates) - 1)
 output_file = open("output.txt","w")
-for i in range(len(expiry_dates)):
-    if expiry_dates[i] > 202501:
+for i in range(len(ExpiryDates)):
+    if ExpiryDates[i] > 202501:
         break
     expired_text = "RENEW IMMEDIATELY"
-    if expiry_dates[i] < 202501:
+    if ExpiryDates[i] < 202501:
         expired_text = "EXPIRED"
-    print("%-35s %-15s %-20s %-8s %-15s" % (names[i], cc_types[i], cc_nums[i], expiry_dates[i], expired_text))
-    output_file.write("%-35s %-15s %-20s %-8s %-15s\n" % (names[i], cc_types[i], cc_nums[i], expiry_dates[i], expired_text))
+    print("%-35s %-15s %-20s %-8s %-15s" % (names[i], CCtypes[i], CCnums[i], ExpiryDates[i], expired_text))
+    output_file.write("%-35s %-15s %-20s %-8s %-15s\n" % (names[i], CCtypes[i], CCnums[i], ExpiryDates[i], expired_text))
 output_file.close()
 
