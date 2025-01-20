@@ -6,7 +6,7 @@
    VARIABLE DICTIONARY :
     filename: str - Name of the file
     fh: file object - File handle
-    names: list - List of names (first and last)
+    Names: list - List of Names (first and last)
     CCnums: list - List of credit card numbers
     CCtypes: list - List of credit card types
     ExpiryDates: list - List of expiry dates
@@ -85,7 +85,7 @@ def merge(list1, list2, list3, list4, left, mid, right):
 
 fh = open(filename, 'r')
 
-names = []
+Names = []
 CCnums = []
 CCtypes = []
 ExpiryDates = []
@@ -95,7 +95,7 @@ FirstLine = lines.pop(0)
 for line in lines:
     given_name, surname, cc_type, cc_number, exp_mo, exp_yr = line.strip().split(',')
     name = given_name + ' ' + surname
-    names.append(name)
+    Names.append(name)
     CCtypes.append(cc_type)
     CCnums.append(cc_number)
     if len(exp_mo) == 1:
@@ -105,7 +105,7 @@ for line in lines:
 
 fh.close()
 
-merge_sort(ExpiryDates, names, CCnums, CCtypes, 0, len(ExpiryDates) - 1)
+merge_sort(ExpiryDates, Names, CCnums, CCtypes, 0, len(ExpiryDates) - 1)
 OutputFile = open("JonthanCodeOutput.txt","w")
 for i in range(len(ExpiryDates)):
     if ExpiryDates[i] > 202501:
@@ -113,6 +113,6 @@ for i in range(len(ExpiryDates)):
     ExpiredText = "RENEW IMMEDIATELY"
     if ExpiryDates[i] < 202501:
         ExpiredText = "EXPIRED"
-    print("%-35s %-15s %-20s %-8s %-15s" % (names[i], CCtypes[i], CCnums[i], ExpiryDates[i], ExpiredText))
-    OutputFile.write("%-35s %-15s %-20s %-8s %-15s\n" % (names[i], CCtypes[i], CCnums[i], ExpiryDates[i], ExpiredText))
+    print("%-35s %-15s %-20s %-8s %-15s" % (Names[i], CCtypes[i], CCnums[i], ExpiryDates[i], ExpiredText))
+    OutputFile.write("%-35s %-15s %-20s %-8s %-15s\n" % (Names[i], CCtypes[i], CCnums[i], ExpiryDates[i], ExpiredText))
 OutputFile.close()
