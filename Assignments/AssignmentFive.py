@@ -106,7 +106,7 @@ for line in lines:
 fh.close()
 
 merge_sort(ExpiryDates, names, CCnums, CCtypes, 0, len(ExpiryDates) - 1)
-OutputFile = open("output.txt","w")
+OutputFile = open("JonthanCodeOutput.txt","w")
 for i in range(len(ExpiryDates)):
     if ExpiryDates[i] > 202501:
         break
@@ -116,4 +116,3 @@ for i in range(len(ExpiryDates)):
     print("%-35s %-15s %-20s %-8s %-15s" % (names[i], CCtypes[i], CCnums[i], ExpiryDates[i], ExpiredText))
     OutputFile.write("%-35s %-15s %-20s %-8s %-15s\n" % (names[i], CCtypes[i], CCnums[i], ExpiryDates[i], ExpiredText))
 OutputFile.close()
-
