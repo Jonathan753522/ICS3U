@@ -4,7 +4,16 @@
    Program : Credit Card Revisor
    Description : Checks to see if you need to renew your card or if its expired
    VARIABLE DICTIONARY :
-    
+    filename: str - Name of the file
+    fh: file object - File handle
+    names: list - List of names (first and last)
+    CCnums: list - List of credit card numbers
+    CCtypes: list - List of credit card types
+    ExpiryDates: list - List of expiry dates
+    lines: list - List of all the lines in file
+    FirstLine: str - First line of the file (to be removed from lines)
+    OutputFile: file object - File handle for the output file
+    ExpiredText: str - Text to display when expired
 """
 
 filename = "data.dat"
@@ -82,7 +91,7 @@ CCtypes = []
 ExpiryDates = []
 
 lines = fh.readlines()
-first_line = lines.pop(0)
+FirstLine = lines.pop(0)
 for line in lines:
     given_name, surname, cc_type, cc_number, exp_mo, exp_yr = line.strip().split(',')
     name = given_name + ' ' + surname
@@ -97,14 +106,14 @@ for line in lines:
 fh.close()
 
 merge_sort(ExpiryDates, names, CCnums, CCtypes, 0, len(ExpiryDates) - 1)
-output_file = open("output.txt","w")
+OutputFile = open("output.txt","w")
 for i in range(len(ExpiryDates)):
     if ExpiryDates[i] > 202501:
         break
-    expired_text = "RENEW IMMEDIATELY"
+    ExpiredText = "RENEW IMMEDIATELY"
     if ExpiryDates[i] < 202501:
-        expired_text = "EXPIRED"
-    print("%-35s %-15s %-20s %-8s %-15s" % (names[i], CCtypes[i], CCnums[i], ExpiryDates[i], expired_text))
-    output_file.write("%-35s %-15s %-20s %-8s %-15s\n" % (names[i], CCtypes[i], CCnums[i], ExpiryDates[i], expired_text))
-output_file.close()
+        ExpiredText = "EXPIRED"
+    print("%-35s %-15s %-20s %-8s %-15s" % (names[i], CCtypes[i], CCnums[i], ExpiryDates[i], ExpiredText))
+    OutputFile.write("%-35s %-15s %-20s %-8s %-15s\n" % (names[i], CCtypes[i], CCnums[i], ExpiryDates[i], ExpiredText))
+OutputFile.close()
 
