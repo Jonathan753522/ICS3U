@@ -1,157 +1,258 @@
 """
-   Author : Jonathan Lee
-   Revision date : 20 December 2024
-   Program : Credit Card Revisor
-   Description : Checks to see if you need to renew your card or if it's expired.
+Program : Making A Word Finder
+   Description : Finding words and dates using the date and word
    VARIABLE DICTIONARY :
-    filename: str - Name of the file containing credit card data.
-    fh: file object - File handle for reading the input file.
-    Names: list - List containing full names (first and last) of cardholders.
-    CCnums: list - List containing credit card numbers.
-    CCtypes: list - List containing credit card types.
-    ExpiryDates: list - List containing credit card expiry dates in YYYYMM format.
-    lines: list - List of all lines in the input file.
-    FirstLine: str - The first line of the file (header) to be removed from the lines.
-    OutputFile: file object - File handle for writing the output results.
-    ExpiredText: str - Text to display when the card is expired or requires renewal.
+    filename (str) = The file name/path for the xpm file
+    month_to_number (List) list containing dates
+    Dates (list) = Number of rows in the image
+    Words (list) = Number of columns in the image
+    ColorAmount (int) = Number of unique colors used in the image
+    User_input (str) = User input in type string
+    Userinp (bool) = Boolean value of if the userinp has entered valid input
+    colorDefs (list) = List of colors and symbols used in the image
+    imageData (list) = List of each line in the image with color information
+    filename (str) = The file name/path for the Wordle data file
+    month_to_number (dict) = Dictionary mapping month abbreviations to corresponding month numbers
+    word_list (list) = List containing words from the Wordle data file
+    date_list (list) = List containing merged date integers from the Wordle data file
+    Og_dates (list) = Copy of date_list, preserving the original order of dates
+    Og_words (list) = Copy of word_list, preserving the original order of words
+    start_date (int) = The earliest date (in integer form) from the data
+    end_date (int) = The latest date (in integer form) from the data
+    is_valid (bool) = Boolean flag indicating whether the user input is valid
+    user_option (str) = Stores the user's choice ('w' for word search, 'd' for date search)
+    user_word (str) = Stores the word input by the user for word search
+    date_input (int) = Merged integer representing the date input by the user for date search
+    year_input (str) = Year input by the user for date search
+    month_input (str) = Month input by the user for date search (3-letter abbreviation)
+    day_input (str) = Day input by the user for date search
+    word_date (int) = Date corresponding to the searched word, if found
+    word_for_date (str) = Word corresponding to the searched date, if found
+    file_handle (file object) = Handle for reading the Wordle data file
+    file_lines (list) = List of lines read from the Wordle data file
 """
+# Constants
+filename = "wordle.dat"
 
-# Define the input filename for the credit card data
-filename = "data.dat"
+@@ -24,101 +35,150 @@
+}
 
-# Recursive function to perform merge sort on four lists based on expiry dates
-def merge_sort(list1, list2, list3, list4, left, right):
-    # Base case: if the left index is less than the right index
+# Function to merge date components into a single integer
+def merge(p, q, r):
+    month = month_to_number[q.title()]  # Convert month to title case for consistency
+    day = int(p)
+    year = int(r)
+    return year * 10000 + month * 100 + day
+# Open the file
+try:
+    fh = open(filename, "r")
+except:
+    print("File not found.")
+    exit()
+# Arrays to store dates and words
+Dates = []
+Words = []
+# Read data from file
+for line in fh:
+    parts = line.split()
+    if len(parts) == 4:
+        mon, day, year, word = parts
+        date = merge(day, mon, year)
+        Dates.append(date)
+        Words.append(word)
+# Function to sort the words and dates (synchronized)
+def sort(words, dates):
+    for i in range(len(words)):
+        for j in range(i + 1, len(words)):
+            if words[i].upper() > words[j].upper():
+                # Swap words
+                words[i], words[j] = words[j], words[i]
+                # Swap corresponding dates
+                dates[i], dates[j] = dates[j], dates[i]
+# Sort the words and dates alphabetically
+sort(Words, Dates)
+# Function to perform binary search by word
+def isMatch(word, words, dates):
+    low = 0
+    high = len(words) - 1
+    word = word.upper()
+    while low <= high:
+        mid = (low + high) // 2
+        if words[mid].upper() == word:
+            return dates[mid]
+        elif words[mid].upper() < word:
+            low = mid + 1
+        else:
+            high = mid - 1
+def merge_date(year, month, day):
+    try:
+        month_num = month_to_number.get(month.title(), -1)
+        if month_num == -1:
+            return 0  # Return 0 to indicate invalid month
+        return int(year) * 10000 + month_num * 100 + int(day)
+    except:
+        return 0
+# Function to perform merge sort on two arrays
+def merge_sort(list1, list2, left, right):
     if left < right:
-        mid = left + (right - left) // 2  # Calculate the middle index
-        # Recursively sort the two halves of the lists
-        merge_sort(list1, list2, list3, list4, left, mid)
-        merge_sort(list1, list2, list3, list4, mid + 1, right)
-        # Merge the two sorted halves back together
-        merge(list1, list2, list3, list4, left, mid, right)
-
-# Function to merge two sorted sub-arrays into one sorted array
-def merge(list1, list2, list3, list4, left, mid, right):
-    # Calculate the size of the left and right sub-arrays
+        mid = left + (right - left) // 2
+        merge_sort(list1, list2, left, mid)
+        merge_sort(list1, list2, mid + 1, right)
+        merge(list1, list2, left, mid, right)
+# Function to merge two sorted arrays
+def merge(list1, list2, left, mid, right):
     n1 = mid - left + 1
     n2 = right - mid
-
-    # Temporary arrays to hold values from the two halves
     L1 = [0] * n1
-    L2 = [0] * n1
-    L3 = [0] * n1
-    L4 = [0] * n1
     R1 = [0] * n2
+    L2 = [0] * n1
     R2 = [0] * n2
-    R3 = [0] * n2
-    R4 = [0] * n2
-
-    # Copy data from the original lists into temporary arrays
-    for i in range(0, n1):
+    for i in range(n1):
         L1[i] = list1[left + i]
         L2[i] = list2[left + i]
-        L3[i] = list3[left + i]
-        L4[i] = list4[left + i]
-    
-    for j in range(0, n2):
+    for j in range(n2):
         R1[j] = list1[mid + 1 + j]
         R2[j] = list2[mid + 1 + j]
-        R3[j] = list3[mid + 1 + j]
-        R4[j] = list4[mid + 1 + j]
-    
-    # Merging the two sorted sub-arrays back into the original lists
-    i = 0  # Index for the left sub-array
-    j = 0  # Index for the right sub-array
-    k = left  # Index for the merged list
 
+    i, j, k = 0, 0, left
     while i < n1 and j < n2:
-        if L1[i] <= R1[j]:  # Compare expiry dates
+        if L1[i] <= R1[j]:
             list1[k] = L1[i]
             list2[k] = L2[i]
-            list3[k] = L3[i]
-            list4[k] = L4[i]
             i += 1
         else:
             list1[k] = R1[j]
             list2[k] = R2[j]
-            list3[k] = R3[j]
-            list4[k] = R4[j]
             j += 1
         k += 1
-    
-    # Copy remaining elements from the left sub-array, if any
     while i < n1:
         list1[k] = L1[i]
         list2[k] = L2[i]
-        list3[k] = L3[i]
-        list4[k] = L4[i]
         i += 1
         k += 1
-    
-    # Copy remaining elements from the right sub-array, if any
     while j < n2:
         list1[k] = R1[j]
         list2[k] = R2[j]
-        list3[k] = R3[j]
-        list4[k] = R4[j]
         j += 1
         k += 1
+# Function to search for a word or date in a sorted array
+def search_match(query, sorted_list, reference_list):
+    index = binary_search(sorted_list, 0, len(reference_list) - 1, query)
+    if index != -1:
+        return reference_list[index]
+    return 0
 
-# Open the input file in read mode to process the credit card data
-fh = open(filename, 'r')
-
-# Initialize lists to store names, credit card numbers, types, and expiry dates
-Names = []
-CCnums = []
-CCtypes = []
-ExpiryDates = []
-
+# Function to search by date
+def search_by_date(year, month, day, dates, words):
+    search_date = merge(str(day).zfill(2), month, str(year))
+    # Check if date is too early or too late before continuing
+    if search_date < 20210619:
+        return ("%d is too early. Our records only go as late as 20240421. Please enter an earlier date." % search_date)
+    elif search_date > 20240421:
+        return ("%d is too late. Our records only go as late as 20240421. Please enter an earlier date." % search_date)
+    
+    # If valid date range, find the word
+    if search_date in dates:
+        index = dates.index(search_date)
+        return words[index]
+    else:
+        return "Date %s not found in records." % search_date
+# Function to perform binary search on a sorted array
+def binary_search(arr, low, high, target):
+    if high >= low:
+        mid = (high + low) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] > target:
+            return binary_search(arr, low, mid - 1, target)
+        else:
+            return binary_search(arr, mid + 1, high, target)
+    return -1
+# Open the file containing Wordle data
+file_name = filename
+file_handle = open(file_name, "r")
 # Read all lines from the file
-lines = fh.readlines()
+file_lines = file_handle.readlines()
+for i in range(len(file_lines)):
+    file_lines[i] = file_lines[i].strip()
+# Initialize lists to store words and dates
+word_list = []
+date_list = []
+for line in file_lines:
+    month_str, day_str, year_str, word = line.split()
+    merged_date = merge_date(year_str, month_str, day_str)
+    date_list.append(merged_date)
+    word_list.append(word)
+# Close the file
+file_handle.close()
+# Get the start and end dates from the date_list
+start_date = date_list[0]
+end_date = date_list[-1]
+# Create a copy of date_list and word_list to maintain the original order
+Og_dates = date_list.copy()
+Og_words = word_list.copy()
+# Sort the word_list and date_list using merge_sort
+merge_sort(word_list, date_list, 0, len(word_list) - 1)
 
-# Remove the first line (header) from the list of lines
-FirstLine = lines.pop(0)
+# Main program loop
+print("Welcome to the Wordle Database!")
+valid = True
+while (valid == True):
+    action = input("Enter w if you are looking for a word, or d for a word on a certain date: ").strip().lower()
+    if action == 'w':
+        word = input("What word are you looking for? ").strip()
+        date = isMatch(word, Words, Dates)
+        word = word.upper()
+        if date != 0:
+            print("The word %s was the solution to the puzzle on %d" % (word, date))
+            break
+        else:
+            print("%s was not found in the database." % (word))
+is_valid = False
+user_option = ""
 
-# Loop through each line to process the data
-for line in lines:
-    given_name, surname, cc_type, cc_number, exp_mo, exp_yr = line.strip().split(',')
-    # Combine first and last names to create the full name
-    name = given_name + ' ' + surname
-    Names.append(name)
-    CCtypes.append(cc_type)
-    CCnums.append(cc_number)
-    
-    # Ensure the expiry month is two digits (e.g., '09' instead of '9')
-    if len(exp_mo) == 1:
-        exp_mo = '0' + exp_mo
-    
-    # Create expiry date in YYYYMM format (e.g., 202512 for December 2025)
-    expiry_date = exp_yr + exp_mo
-    ExpiryDates.append(int(expiry_date))
+    elif action == 'd':
+        year = int(input("Enter the year: "))
+        month = input("Enter the month (3-letter abbreviation, as in 'Jan' for 'January'): ").strip()
+        day = int(input("Enter the day: "))
+# Loop until valid input
+while not is_valid:
+    user_option = input("Enter 'w' to search for a word, or 'd' to search by date: ").lower()
+    if user_option in ["w", "d"]:
+        is_valid = True
 
-# Close the input file after processing all lines
-fh.close()
-
-# Sort the data by expiry dates using merge sort
-merge_sort(ExpiryDates, Names, CCnums, CCtypes, 0, len(ExpiryDates) - 1)
-
-# Open the output file in write mode to store the results
-OutputFile = open("JonathanCodeOutput.txt", "w")
-
-# Loop through the sorted lists to check each credit card's expiry date
-for i in range(len(ExpiryDates)):
-    # If the expiry date is greater than January 2025, stop checking further
-    if ExpiryDates[i] > 202501:
+        result = search_by_date(year, month, day, Dates, Words)
+        print(result)
         break
-    
-    # Set the expired text based on the expiry date
-    ExpiredText = "RENEW IMMEDIATELY" if ExpiryDates[i] < 202501 else "EXPIRED"
-    
-    # Print the credit card details to the console
-    print("%-35s %-15s %-20s %-8s %-15s" % (Names[i], CCtypes[i], CCnums[i], ExpiryDates[i], ExpiredText))
-    
-    # Write the credit card details to the output file
-    OutputFile.write("%-35s %-15s %-20s %-8s %-15s\n" % (Names[i], CCtypes[i], CCnums[i], ExpiryDates[i], ExpiredText))
-
-# Close the output file after writing the results
-OutputFile.close()
+if user_option == "w":
+    is_valid = False
+    # Loop until valid input
+    while not is_valid:
+        user_word = input("What word are you looking for? ").upper()
+        if len(user_word) == 5:
+            is_valid = True
+    # Check if the word matches any in the database
+    word_date = search_match(user_word, word_list, date_list)
+    if word_date:
+        print("The word %s was the solution to the puzzle on %d." % (user_word, word_date))
+    else:
+        print("Invalid option. Please enter 'w' or 'd'.")
+        print("%s was not found in the database." % (user_word))
+elif user_option == "d":
+    is_valid = False
+    # Loop until valid input
+    while not is_valid:
+        year_input = input("Enter the year: ")
+        month_input = input("Enter the month (3-letter abbreviation, as in 'Jan' for 'January'): ")
+        day_input = input("Enter the day: ")
+        date_input = merge_date(year_input, month_input, day_input)
+        if date_input != 0:
+            is_valid = True
+    # Check if the date matches any in the database and get the corresponding word
+    word_for_date = search_match(date_input, Og_dates, Og_words)
+    if date_input < start_date:
+        print("%s is too early. No Wordles occurred before %d. Enter a later date." % (date_input, start_date))
+    elif date_input > end_date:
+        print("%s is too late. No Wordles occurred before %s. Our records only go as late as %s. Please enter an earlier date." % (date_input ,end_date, date_input))
+    elif word_for_date:
+        print("The word entered on %s was %s." % (date_input, word_for_date))
