@@ -114,20 +114,23 @@ FirstLine = lines.pop(0)
 
 # Loop through each line to process the data
 for line in lines:
-    given_name, surname, cc_type, cc_number, exp_mo, exp_yr = line.strip().split(',')
+    GivenName, surname, CCtypes, CCnums, ExpMo, ExpYear = line.strip().split(',')
     # Combine first and last names to create the full name
-    name = given_name + ' ' + surname
+    name = GivenName + ' ' + surname
+     # Add name to names list
     Names.append(name)
-    CCtypes.append(cc_type)
-    CCnums.append(cc_number)
+   # Add CCtypes to list
+    CCtypes.append(CCtypes)
+   # Add cc_number to list
+    CCnums.append(CCnums)
     
     # Ensure the expiry month is two digits (e.g., '09' instead of '9')
-    if len(exp_mo) == 1:
-        exp_mo = '0' + exp_mo
+    if len(ExpMo) == 1:
+        ExpMo = '0' + ExpMo
     
     # Create expiry date in YYYYMM format (e.g., 202512 for December 2025)
-    expiry_date = exp_yr + exp_mo
-    ExpiryDates.append(int(expiry_date))
+    ExpiryDates = ExpYear + ExpMo
+    ExpiryDates.append(int(ExpiryDates))
 
 # Close the input file after processing all lines
 fh.close()
