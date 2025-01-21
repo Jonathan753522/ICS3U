@@ -130,13 +130,13 @@ for line in lines:
     
     # Create expiry date in YYYYMM format (e.g., 202512 for December 2025)
     ExpiryDates = ExpYear + ExpMo
-    ExpiryDates.append(int(ExpiryDates))
+    ExpiryDates.append(int(ExpiryDate))
 
 # Close the input file after processing all lines
 fh.close()
 
 # Sort the data by expiry dates using merge sort
-merge_sort(ExpiryDates, Names, CCnums, CCtypes, 0, len(ExpiryDates) - 1)
+merge_sort(ExpiryDates, Names, CCnums, CCtypes, 0, len(ExpiryDate) - 1)
 
 # Open the output file in write mode to store the results
 OutputFile = open("JonathanCodeOutput.txt", "w")
