@@ -114,15 +114,15 @@ FirstLine = lines.pop(0)
 
 # Loop through each line to process the data
 for line in lines:
-    GivenName, surname, CCtypes, CCnums, ExpMo, ExpYear = line.strip().split(',')
+    GivenName, surname, CCtype, CCnumber, ExpMo, ExpYear = line.strip().split(',')
     # Combine first and last names to create the full name
     name = GivenName + ' ' + surname
      # Add name to names list
     Names.append(name)
    # Add CCtypes to list
-    CCtypes.append(CCtypes)
+    CCtypes.append(CCtype)
    # Add cc_number to list
-    CCnums.append(CCnums)
+    CCnums.append(CCnumber)
     
     # Ensure the expiry month is two digits (e.g., '09' instead of '9')
     if len(ExpMo) == 1:
